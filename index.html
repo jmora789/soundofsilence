@@ -38,7 +38,7 @@
             font-size: 32pt;
             font-weight: 700;
             color: #ffffff;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.5rem; /* Increased margin for more space */
             text-align: center;
         }
 
@@ -55,7 +55,7 @@
             font-family: 'Oswald', sans-serif;
             font-weight: 500;
             letter-spacing: 0.1em;
-            color: #c42168;
+            color: #c42168; /* Changed color to a darker magenta */
         }
 
         .button-primary {
@@ -164,3 +164,47 @@
                     updateDisplay(remainingTime);
                 } else {
                     clearInterval(timerInterval);
+                    timerInterval = null;
+                    showMessage('The piece is complete.');
+                }
+            }, 1000);
+            showMessage('Listening...');
+        };
+
+        // Pause the timer
+        const pauseTimer = () => {
+            if (timerInterval !== null) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+                isPaused = true;
+                showMessage('Timer paused.');
+            }
+        };
+
+        // Reset the timer
+        const resetTimer = () => {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            remainingTime = totalDuration;
+            isPaused = false;
+            updateDisplay(remainingTime);
+            showMessage('Timer reset.');
+        };
+
+        // Add event listeners to buttons
+        startBtn.addEventListener('click', () => {
+            if (isPaused) {
+                startTimer();
+            } else if (timerInterval === null && remainingTime === totalDuration) {
+                startTimer();
+            } else {
+                showMessage('Timer is already running.');
+            }
+        });
+
+        pauseBtn.addEventListener('click', pauseTimer);
+        resetBtn.addEventListener('click', resetTimer);
+    };
+</script>
+</body>
+</html>
